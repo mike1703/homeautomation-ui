@@ -7,7 +7,9 @@ import XmlDebmaticDevices from './components/XmlDebmaticDevices.vue';
   <v-app>
     <v-app-bar title="Homeautomation"></v-app-bar>
     <v-main>
-      <XmlDebmaticDevices />
+      <v-container>
+        <XmlDebmaticDevices />
+      </v-container>
     </v-main>
   </v-app>
 </template>
