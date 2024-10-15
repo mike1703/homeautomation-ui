@@ -6,10 +6,13 @@ const devices = defineModel<ShutterDeviceControl[]>("devices");
 </script>
 
 <template>
-    <div>
-        Shutter
-        <div v-for="device in devices">
-            <div>{{ device }}</div>
-        </div>
-    </div>
+    <v-container>
+        <v-row v-for="device in devices">
+            <v-slider min="0" max="1" step="0.2" thumb-label color="primary">
+                <template v-slot:append>
+                    {{ device.name }}
+                </template>
+            </v-slider>
+        </v-row>
+    </v-container>
 </template>

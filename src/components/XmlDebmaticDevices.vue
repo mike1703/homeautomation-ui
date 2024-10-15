@@ -25,6 +25,14 @@ function extract_state(state: Debmatic) {
     switch_devices.value = switch_control_ids(extract_device_class(state, DeviceClass.PSM))
 }
 
+const panels = ref([
+    { name: 'Shutter', component: ShutterDevices, devices: shutter_devices },
+    { name: 'Switch', component: SwitchDevices, devices: switch_devices },
+    { name: 'Cuxd', component: CuxdDevices, devices: cuxd_devices },
+    { name: 'Heating', component: HeatingDevices, devices: heating_devices },
+    { name: 'Garage', component: GarageDevices, devices: garage_devices }
+])
+
 watch(debmatic_state, (state) => {
     extract_state(state)
 })
@@ -34,10 +42,12 @@ onMounted(async () => { debmatic_state.value = await fetch_current_state() })
 </script>
 
 <template>
-    <div @click="fetch_current_state()">Reload</div>
-    <ShutterDevices :devices="shutter_devices"></ShutterDevices>
-    <SwitchDevices :devices="switch_devices"></SwitchDevices>
-    <CuxdDevices :devices="cuxd_devices"></CuxdDevices>
-    <HeatingDevices :devices="heating_devices"></HeatingDevices>
-    <GarageDevices :devices="garage_devices"></GarageDevices>
+    <v-btn @click="fetch_current_state()">Reload</v-btn>
+    <v-expansion-panels variant="accordion" v-for="panel in panels">
+        <v-expansion-panel :title="panel.name">
+            <v-expansion-panel-text>
+                <component :is="panel.component" :devices="panel.devices"></component>
+            </v-expansion-panel-text>
+        </v-expansion-panel>
+    </v-expansion-panels>
 </template>

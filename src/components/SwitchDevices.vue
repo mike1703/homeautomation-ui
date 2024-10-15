@@ -6,10 +6,9 @@ const devices = defineModel<SwitchDeviceControl[]>("devices");
 </script>
 
 <template>
-    <div>
-        Switches
-        <div v-for="device in devices">
-            <div>{{ device }}</div>
-        </div>
-    </div>
+    <v-container>
+        <v-row v-for="device in devices">
+            <v-switch v-model="device.value" :label="device.name" color="primary"></v-switch>
+        </v-row>
+    </v-container>
 </template>

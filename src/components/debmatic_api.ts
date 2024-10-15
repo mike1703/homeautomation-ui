@@ -91,7 +91,7 @@ export function extract_device_class(
   state: Debmatic,
   device_class: DeviceClass
 ) {
-  let devices = toRaw(state.stateList.device);
+  let devices = state.stateList.device;
   let filtered_devices = devices.filter((device) =>
     is_device_class(device.name, device_class)
   );
