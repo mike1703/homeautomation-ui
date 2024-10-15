@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import XmlDebmaticDevices from '@/components/XmlDebmaticDevices.vue';
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <XmlDebmaticDevices />
   </main>
 </template>
