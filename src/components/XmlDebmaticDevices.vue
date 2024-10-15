@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { cuxd_control_ids, DeviceClass, extract_device_class, extract_device_classes, fetch_current_state, garage_control_ids, heating_control_ids, shutter_control_ids, switch_control_ids, type Debmatic } from './debmatic_api'
-import { onMounted, ref, shallowRef, toRaw, watch } from 'vue';
+import { onMounted, ref, shallowRef, watch } from 'vue';
+
+import CuxdDevices from './CuxdDevices.vue';
+import GarageDevices from './GarageDevices.vue';
+import HeatingDevices from './HeatingDevices.vue';
+import ShutterDevices from './ShutterDevices.vue';
+import SwitchDevices from './SwitchDevices.vue';
 
 let debmatic_state = shallowRef({} as Debmatic)
 
@@ -29,29 +35,9 @@ onMounted(async () => { debmatic_state.value = await fetch_current_state() })
 
 <template>
     <div @click="fetch_current_state()">Reload</div>
-    <div>Shutter
-        <div v-for="shutter_device in shutter_devices">
-            <div>{{ shutter_device }}</div>
-        </div>
-    </div>
-    <div>PSM
-        <div v-for="switch_device in switch_devices">
-            <div>{{ switch_device }}</div>
-        </div>
-    </div>
-    <div>CUXD
-        <div v-for="cuxd_device in cuxd_devices">
-            <div>{{ cuxd_device }}</div>
-        </div>
-    </div>
-    <div>Heating
-        <div v-for="heating_device in heating_devices">
-            <div>{{ heating_device }}</div>
-        </div>
-    </div>
-    <div>Garage
-        <div v-for="garage_device in garage_devices">
-            <div>{{ garage_device }}</div>
-        </div>
-    </div>
+    <ShutterDevices :devices="shutter_devices"></ShutterDevices>
+    <SwitchDevices :devices="switch_devices"></SwitchDevices>
+    <CuxdDevices :devices="cuxd_devices"></CuxdDevices>
+    <HeatingDevices :devices="heating_devices"></HeatingDevices>
+    <GarageDevices :devices="garage_devices"></GarageDevices>
 </template>
