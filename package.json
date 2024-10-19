@@ -19,12 +19,14 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
+    "@mdi/js": "^7.4.47",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "22.7.5",
     "@types/xml2js": "^0.4.14",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/tsconfig": "^0.5.1",
     "npm-run-all2": "^6.2.0",
+    "prettier": "^3.3.3",
     "typescript": "5.6.3",
     "vite": "5.4.9",
     "vue-tsc": "^2.0.21"

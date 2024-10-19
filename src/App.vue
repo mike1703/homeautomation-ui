@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import XmlDebmaticDevices from './components/XmlDebmaticDevices.vue';
-
+import HomematicDevices from './components/HomematicDevices.vue';
 </script>
 
 <template>
@@ -8,7 +7,7 @@ import XmlDebmaticDevices from './components/XmlDebmaticDevices.vue';
     <v-app-bar title="Homeautomation"></v-app-bar>
     <v-main>
       <v-container>
-        <XmlDebmaticDevices />
+        <HomematicDevices />
       </v-container>
     </v-main>
   </v-app>

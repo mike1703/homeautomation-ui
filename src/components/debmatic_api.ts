@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toRaw } from "vue";
-import xml2js from "xml2js";
+import axios from 'axios';
+import { toRaw } from 'vue';
+import xml2js from 'xml2js';
 
 // created with https://jsonformatter.org/xml-to-typescript
 export interface Debmatic {
@@ -40,20 +40,20 @@ interface DatapointElement {
 }
 
 enum Valueunit {
-  C = "°C",
-  Empty = "",
-  Hz = "Hz",
-  MA = "mA",
-  RF = "% rF",
-  The100 = "100%",
-  V = "V",
-  Valueunit = "%",
-  W = "W",
-  Wh = "Wh",
+  C = '°C',
+  Empty = '',
+  Hz = 'Hz',
+  MA = 'mA',
+  RF = '% rF',
+  The100 = '100%',
+  V = 'V',
+  Valueunit = '%',
+  W = 'W',
+  Wh = 'Wh',
 }
 
 export function fetch_current_state() {
-  let host = "http://debmatic.fritz.box/config/xmlapi/statelist.cgi";
+  let host = 'http://debmatic.fritz.box/config/xmlapi/statelist.cgi';
   return axios
     .get(host)
     .then((axios_result) => {
@@ -71,13 +71,13 @@ export function fetch_current_state() {
 }
 
 export enum DeviceClass {
-  BWTH = "BWTH",
-  STHD = "STHD",
-  PSM = "PSM",
-  FROLL = "FROLL",
-  BROLL = "BROLL",
-  CUXD = "HM-LC-Sw1-Pl",
-  GARAGE_DOOR = "MOD-HO",
+  BWTH = 'BWTH',
+  STHD = 'STHD',
+  PSM = 'PSM',
+  FROLL = 'FROLL',
+  BROLL = 'BROLL',
+  CUXD = 'HM-LC-Sw1-Pl',
+  GARAGE_DOOR = 'MOD-HO',
 }
 
 /** returns boolean wether the `device_class` is in the `device_name` */
@@ -87,39 +87,29 @@ function is_device_class(device_name: string, device_class: DeviceClass) {
 }
 
 /** extract a list of devices matching the `device_class` */
-export function extract_device_class(
-  state: Debmatic,
-  device_class: DeviceClass
-) {
+export function extract_device_class(state: Debmatic, device_class: DeviceClass) {
   let devices = state.stateList.device;
-  let filtered_devices = devices.filter((device) =>
-    is_device_class(device.name, device_class)
-  );
+  let filtered_devices = devices.filter((device) => is_device_class(device.name, device_class));
   return filtered_devices;
 }
 
 /** extract a list of devices matching one of the classes in the `device_classes */
-export function extract_device_classes(
-  state: Debmatic,
-  device_classes: DeviceClass[]
-) {
-  return device_classes.flatMap((device_class) =>
-    extract_device_class(state, device_class)
-  );
+export function extract_device_classes(state: Debmatic, device_classes: DeviceClass[]) {
+  return device_classes.flatMap((device_class) => extract_device_class(state, device_class));
 }
 
 /** extract the name of the device (split of the device class that my devices have as prefix) */
 function extract_device_name(device: Device) {
   // split of the _class part and return the rest
-  const [_class, ...device_name] = device.name.split(" ");
-  return device_name.join(" ");
+  const [_class, ...device_name] = device.name.split(' ');
+  return device_name.join(' ');
 }
 
 /** parse a string as bool */
 function parseBool(value: string) {
-  if (value == "true") {
+  if (value == 'true') {
     return true;
-  } else if (value == "false") {
+  } else if (value == 'false') {
     return false;
   } else {
     return undefined;
@@ -142,9 +132,7 @@ export function switch_control_ids(switch_devices: Device[]) {
   const device_controls = switch_devices
     .map((device) => {
       const name = extract_device_name(device);
-      const state_datapoint = device.channel
-        .at(3)
-        ?.datapoint?.find((datapoint) => datapoint.type == "STATE");
+      const state_datapoint = device.channel.at(3)?.datapoint?.find((datapoint) => datapoint.type == 'STATE');
       const state_id = state_datapoint?.ise_id;
       const value = state_datapoint?.value;
       if (state_id == undefined || value == undefined) {
@@ -156,7 +144,7 @@ export function switch_control_ids(switch_devices: Device[]) {
         value: parseBool(value),
       } as SwitchDeviceControl;
     })
-    .filter(has_name);
+    .filter(has_name) as SwitchDeviceControl[];
   return device_controls;
 }
 
@@ -171,20 +159,12 @@ export function shutter_control_ids(shutter_devices: Device[]) {
   const device_controls = shutter_devices
     .map((device) => {
       const name = extract_device_name(device);
-      const stop_datapoint = device.channel
-        .at(4)
-        ?.datapoint?.find((datapoint) => datapoint.type == "STOP");
-      const level_datapoint = device.channel
-        .at(4)
-        ?.datapoint?.find((datapoint) => datapoint.type == "LEVEL");
+      const stop_datapoint = device.channel.at(4)?.datapoint?.find((datapoint) => datapoint.type == 'STOP');
+      const level_datapoint = device.channel.at(4)?.datapoint?.find((datapoint) => datapoint.type == 'LEVEL');
       const stop_id = stop_datapoint?.ise_id;
       const control_id = device.channel.at(4)?.ise_id;
       const value = level_datapoint?.value;
-      if (
-        stop_id == undefined ||
-        control_id == undefined ||
-        value == undefined
-      ) {
+      if (stop_id == undefined || control_id == undefined || value == undefined) {
         return {};
       }
       return {
@@ -211,10 +191,10 @@ export function garage_control_ids(garage_devices: Device[]) {
       const name = extract_device_name(device);
       const door_receiver_channel = device.channel.at(1);
       const door_command_id = door_receiver_channel?.datapoint?.find(
-        (datapoint) => datapoint.type == "DOOR_COMMAND"
+        (datapoint) => datapoint.type == 'DOOR_COMMAND',
       )?.ise_id;
       const door_state_value = door_receiver_channel?.datapoint?.find(
-        (datapoint) => datapoint.type == "DOOR_STATE"
+        (datapoint) => datapoint.type == 'DOOR_STATE',
       )?.value;
       if (door_command_id == undefined || door_state_value == undefined) {
         return {};
@@ -244,9 +224,7 @@ export function cuxd_control_ids(cuxd_devices: Device[]) {
       cuxd_device.channel
         .map((channel) => {
           const name = channel.name;
-          const control_datapoint = channel.datapoint?.find(
-            (datapoint) => datapoint.type == "STATE"
-          );
+          const control_datapoint = channel.datapoint?.find((datapoint) => datapoint.type == 'STATE');
           const control_id = control_datapoint?.ise_id;
           const value = control_datapoint?.value;
           if (control_id == undefined || value == undefined) {
@@ -279,18 +257,14 @@ export function heating_control_ids(heating_devices: Device[]) {
       const name = extract_device_name(device);
       const control_channel = device.channel.at(1);
       const set_point_datapoint = control_channel?.datapoint?.find(
-        (datapoint) => datapoint.type == "SET_POINT_TEMPERATURE"
+        (datapoint) => datapoint.type == 'SET_POINT_TEMPERATURE',
       );
       const temperature_value = control_channel?.datapoint?.find(
-        (datapoint) => datapoint.type == "ACTUAL_TEMPERATURE"
+        (datapoint) => datapoint.type == 'ACTUAL_TEMPERATURE',
       )?.value;
       const set_point_value = set_point_datapoint?.value;
       const control_id = set_point_datapoint?.ise_id;
-      if (
-        control_id == undefined ||
-        temperature_value == undefined ||
-        set_point_value == undefined
-      ) {
+      if (control_id == undefined || temperature_value == undefined || set_point_value == undefined) {
         return {};
       }
       return {
