@@ -23,11 +23,11 @@ import { mdiWindowShutter, mdiGarage, mdiFire, mdiPowerSocketDe } from '@mdi/js'
 
 let debmatic_state = shallowRef<Debmatic>();
 
-let shutter_devices = shallowRef<ShutterDeviceControl[]>();
-let cuxd_devices = shallowRef<CuxdDeviceControl[]>();
-let heating_devices = shallowRef<HeatingDeviceControl[]>();
-let garage_devices = shallowRef<GarageDeviceControl[]>();
-let switch_devices = shallowRef<SwitchDeviceControl[]>();
+let shutter_devices = ref<ShutterDeviceControl[]>();
+let cuxd_devices = ref<CuxdDeviceControl[]>();
+let heating_devices = ref<HeatingDeviceControl[]>();
+let garage_devices = ref<GarageDeviceControl[]>();
+let switch_devices = ref<SwitchDeviceControl[]>();
 
 /** extract all devices from the given state */
 function extract_state(state: Debmatic) {

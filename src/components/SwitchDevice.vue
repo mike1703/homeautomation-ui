@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import type { SwitchDeviceControl } from './debmatic_api';
+import { set_new_state, type SwitchDeviceControl } from './debmatic_api';
 
 const props = defineProps<{ device: SwitchDeviceControl }>();
+
+function update(new_value: boolean | null) {
+  set_new_state(props.device.id, new_value);
+}
 </script>
 
 <template>
-  <v-switch v-model="device.value" :label="device.name" color="primary"></v-switch>
+  <v-switch @update:model-value="update" v-model="device.value" :label="device.name" color="primary"></v-switch>
 </template>

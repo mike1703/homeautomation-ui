@@ -80,6 +80,15 @@ export enum DeviceClass {
   GARAGE_DOOR = 'MOD-HO',
 }
 
+/** set the new state in the debmatic api */
+export function set_new_state(control_id: number, new_value: any) {
+  const url = `http://debmatic.fritz.box/config/xmlapi/statechange.cgi?ise_id=${control_id}&new_value=${new_value}`;
+  console.log('device_control: ', url);
+  return axios.get(url).then((axios_result) => {
+    console.log(axios_result.data);
+  });
+}
+
 /** returns boolean wether the `device_class` is in the `device_name` */
 function is_device_class(device_name: string, device_class: DeviceClass) {
   let result = device_name.includes(device_class);
