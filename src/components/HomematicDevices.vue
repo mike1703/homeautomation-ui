@@ -55,32 +55,42 @@ onMounted(async () => {
   <v-expansion-panels variant="accordion">
     <v-expansion-panel title="Shutter">
       <!-- <v-icon icon="mdiWindowShutter" /> -->
-      <v-expansion-panel-text v-for="device in shutter_devices">
-        <ShutterDevice :device="device" />
+      <v-expansion-panel-text>
+        <template v-for="device in shutter_devices">
+          <ShutterDevice :device="device" />
+        </template>
       </v-expansion-panel-text>
     </v-expansion-panel>
     <v-expansion-panel title="Switch">
       <!-- <v-icon icon="mdiPowerSocketDe" /> -->
-      <v-expansion-panel-text v-for="device in switch_devices">
-        <SwitchDevice :device="device" />
+      <v-expansion-panel-text>
+        <template v-for="device in switch_devices">
+          <SwitchDevice :device="device" />
+        </template>
       </v-expansion-panel-text>
     </v-expansion-panel>
     <v-expansion-panel title="Cuxd">
       <!-- <v-icon icon="mdiPowerSocketDe" /> -->
-      <v-expansion-panel-text v-for="device in cuxd_devices">
-        <CuxdDevice :device="device" />
+      <v-expansion-panel-text>
+        <template v-for="device in cuxd_devices">
+          <CuxdDevice :device="device" />
+        </template>
       </v-expansion-panel-text>
     </v-expansion-panel>
     <v-expansion-panel title="Heating">
       <!-- <v-icon icon="mdiFire" /> -->
-      <v-expansion-panel-text v-for="device in heating_devices">
-        <HeatingDevice :device="device" />
+      <v-expansion-panel-text>
+        <template v-for="device in heating_devices">
+          <HeatingDevice :device="device" />
+        </template>
       </v-expansion-panel-text>
     </v-expansion-panel>
     <v-expansion-panel title="Garage">
       <!-- <v-icon icon="mdiGarage" /> -->
-      <v-expansion-panel-text v-for="device in garage_devices">
-        <GarageDevice :device="device" />
+      <v-expansion-panel-text>
+        <template v-for="device in garage_devices">
+          <GarageDevice :device="device" />
+        </template>
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>
