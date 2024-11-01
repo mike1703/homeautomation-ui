@@ -52,7 +52,17 @@ enum Valueunit {
   Wh = 'Wh',
 }
 
-const debmatic_xmlapi = 'http://debmatic.fritz.box/config/xmlapi';
+/** get the debmatic server from meta tag "debmatic_server", if not available use the current origin */
+function get_debmatic_server_from_meta() {
+  const element = document.head.querySelector('[name~=debmatic_server][content]');
+  if (element instanceof HTMLMetaElement) {
+    const debmatic_server = element.content;
+    return `${debmatic_server}/config/xmlapi`;
+  }
+  return window.location.origin;
+}
+
+const debmatic_xmlapi = get_debmatic_server_from_meta();
 
 export function fetch_current_state() {
   let host = `${debmatic_xmlapi}/statelist.cgi`;
