@@ -59,7 +59,7 @@ function get_debmatic_server_from_meta() {
     const debmatic_server = element.content;
     return `${debmatic_server}/config/xmlapi`;
   }
-  return window.location.origin;
+  return `${window.location.origin}/config/xmlapi`;
 }
 
 const debmatic_xmlapi = get_debmatic_server_from_meta();
