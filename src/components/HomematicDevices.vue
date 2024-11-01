@@ -38,38 +38,6 @@ function extract_state(state: Debmatic) {
   switch_devices.value = switch_control_ids(extract_device_class(state, DeviceClass.PSM));
 }
 
-const panels = ref([
-  {
-    name: 'Shutter',
-    component: ShutterDevice,
-    devices: shutter_devices,
-    icon: mdiWindowShutter,
-  },
-  {
-    name: 'Switch',
-    component: SwitchDevice,
-    devices: switch_devices,
-    icon: mdiPowerSocketDe,
-  },
-  {
-    name: 'Cuxd',
-    component: CuxdDevice,
-    devices: cuxd_devices,
-    icon: mdiPowerSocketDe,
-  },
-  {
-    name: 'Heating',
-    component: HeatingDevice,
-    devices: heating_devices,
-    icon: mdiFire,
-  },
-  {
-    name: 'Garage',
-    component: GarageDevice,
-    devices: garage_devices,
-    icon: mdiGarage,
-  },
-]);
 
 watch(debmatic_state, (state) => {
   if (state != undefined) {
@@ -84,11 +52,35 @@ onMounted(async () => {
 
 <template>
   <v-btn @click="fetch_current_state()">Reload</v-btn>
-  <v-expansion-panels variant="accordion" v-for="panel in panels">
-    <v-expansion-panel :title="panel.name">
-      <!-- <v-icon :icon="panel.icon" /> -->
-      <v-expansion-panel-text v-for="device in panel.devices">
-        <component :is="panel.component" :device="device" />
+  <v-expansion-panels variant="accordion">
+    <v-expansion-panel title="Shutter">
+      <!-- <v-icon icon="mdiWindowShutter" /> -->
+      <v-expansion-panel-text v-for="device in shutter_devices">
+        <ShutterDevice :device="device" />
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+    <v-expansion-panel title="Switch">
+      <!-- <v-icon icon="mdiPowerSocketDe" /> -->
+      <v-expansion-panel-text v-for="device in switch_devices">
+        <SwitchDevice :device="device" />
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+    <v-expansion-panel title="Cuxd">
+      <!-- <v-icon icon="mdiPowerSocketDe" /> -->
+      <v-expansion-panel-text v-for="device in cuxd_devices">
+        <CuxdDevice :device="device" />
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+    <v-expansion-panel title="Heating">
+      <!-- <v-icon icon="mdiFire" /> -->
+      <v-expansion-panel-text v-for="device in heating_devices">
+        <HeatingDevice :device="device" />
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+    <v-expansion-panel title="Garage">
+      <!-- <v-icon icon="mdiGarage" /> -->
+      <v-expansion-panel-text v-for="device in garage_devices">
+        <GarageDevice :device="device" />
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>
