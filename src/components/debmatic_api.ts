@@ -52,8 +52,10 @@ enum Valueunit {
   Wh = 'Wh',
 }
 
+const debmatic_xmlapi = 'http://debmatic.fritz.box/config/xmlapi';
+
 export function fetch_current_state() {
-  let host = 'http://debmatic.fritz.box/config/xmlapi/statelist.cgi';
+  let host = `${debmatic_xmlapi}/statelist.cgi`;
   return axios
     .get(host)
     .then((axios_result) => {
@@ -82,7 +84,7 @@ export enum DeviceClass {
 
 /** set the new state in the debmatic api */
 export function set_new_state(control_id: number, new_value: any) {
-  const url = `http://debmatic.fritz.box/config/xmlapi/statechange.cgi?ise_id=${control_id}&new_value=${new_value}`;
+  const url = `${debmatic_xmlapi}/statechange.cgi?ise_id=${control_id}&new_value=${new_value}`;
   console.log('device_control: ', url);
   return axios.get(url).then((axios_result) => {
     console.log(axios_result.data);
