@@ -10,7 +10,7 @@ function update(new_value: number) {
 
 <template>
   <v-slider min="15" max="30" step="0.5" @update:model-value="update" v-model="device.set_point_value"
-    thumb-label="always" color="primary">
+    thumb-label="always" color="primary" hide-details>
     <template v-slot:append>
       <v-chip>{{ device.temperature_value }} °C</v-chip> {{ device.name }}
     </template>

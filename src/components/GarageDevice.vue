@@ -17,5 +17,5 @@ function update(new_value: number) {
 
 <template>
   <v-slider max="2" step="1" show-ticks="always" @update:model-value="update" v-model="device.value" :ticks="tickLabels"
-    color="primary">{{ device }}</v-slider>
+    color="primary" hide-details>{{ device }}</v-slider>
 </template>

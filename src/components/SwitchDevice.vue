@@ -9,5 +9,6 @@ function update(new_value: boolean | null) {
 </script>
 
 <template>
-  <v-switch @update:model-value="update" v-model="device.value" :label="device.name" color="primary"></v-switch>
+  <v-switch @update:model-value="update" v-model="device.value" :label="device.name" color="primary"
+    hide-details></v-switch>
 </template>
