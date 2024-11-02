@@ -202,6 +202,7 @@ export interface GarageDeviceControl {
   name: string;
   door_command_id: number;
   value: number;
+  command_value: number;
 }
 
 /** get ise_ids for the garage door */
@@ -210,19 +211,22 @@ export function garage_control_ids(garage_devices: Device[]) {
     .map((device) => {
       const name = extract_device_name(device);
       const door_receiver_channel = device.channel.at(1);
-      const door_command_id = door_receiver_channel?.datapoint?.find(
+      const door_command_datapoint = door_receiver_channel?.datapoint?.find(
         (datapoint) => datapoint.type == 'DOOR_COMMAND',
-      )?.ise_id;
+      );
+      const door_command_id = door_command_datapoint?.ise_id;
+      const door_command_value = door_command_datapoint?.value;
       const door_state_value = door_receiver_channel?.datapoint?.find(
         (datapoint) => datapoint.type == 'DOOR_STATE',
       )?.value;
-      if (door_command_id == undefined || door_state_value == undefined) {
+      if (door_command_id == undefined || door_state_value == undefined || door_command_value == undefined) {
         return {};
       }
       return {
         name: name,
         door_command_id: parseInt(door_command_id),
         value: parseFloat(door_state_value),
+        command_value: parseFloat(door_command_value),
       };
     })
     .filter(has_name) as GarageDeviceControl[];
