@@ -11,7 +11,7 @@ interface StateList {
   device: Device[];
 }
 
-interface Device {
+export interface Device {
   channel: ChannelElement[];
   name: string;
   ise_id: string;
@@ -108,15 +108,14 @@ function is_device_class(device_name: string, device_class: DeviceClass) {
 }
 
 /** extract a list of devices matching the `device_class` */
-export function extract_device_class(state: Debmatic, device_class: DeviceClass) {
-  let devices = state.stateList.device;
-  let filtered_devices = devices.filter((device) => is_device_class(device.name, device_class));
+export function extract_device_class(all_devices: Device[], device_class: DeviceClass) {
+  let filtered_devices = all_devices.filter((device) => is_device_class(device.name, device_class));
   return filtered_devices;
 }
 
 /** extract a list of devices matching one of the classes in the `device_classes */
-export function extract_device_classes(state: Debmatic, device_classes: DeviceClass[]) {
-  return device_classes.flatMap((device_class) => extract_device_class(state, device_class));
+export function extract_device_classes(all_devices: Device[], device_classes: DeviceClass[]) {
+  return device_classes.flatMap((device_class) => extract_device_class(all_devices, device_class));
 }
 
 /** extract the name of the device (split of the device class that my devices have as prefix) */
